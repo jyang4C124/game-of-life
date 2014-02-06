@@ -88,6 +88,9 @@ public class LifeComponent extends JComponent {
     /**
      * Paint the edu.macalester.comp124.life board on the screen.
      */
+
+   Color LightGreen = new Color(20, 150, 20);
+
     public void paintComponent(Graphics g) {
         if (board == null)
             return;     // refuse to paint a null board
@@ -96,6 +99,7 @@ public class LifeComponent extends JComponent {
         g2.setPaint(Color.WHITE);
         int bw = cellDistance(board.getWidth());
         int bh = cellDistance(board.getHeight());
+
         for (int x = 0; x < bw; x += CELL_SIZE + GUTTER_SIZE) {
             g2.fillRect(x, 0, GUTTER_SIZE, bh);
         }
@@ -103,16 +107,38 @@ public class LifeComponent extends JComponent {
             g2.fillRect(0, y, bw, GUTTER_SIZE);
         }
         
-        g2.setPaint(Color.BLACK);
+        g2.setPaint(Color.RED);
         
         for (int x = 0; x < board.getWidth(); x++) {
             int xpos = cellDistance(x);
             
             for (int y = 0; y < board.getHeight(); y++) {
                 int ypos = cellDistance(y);
-                if (board.getCell(x, y)) {
+
+                if (board.countLivingNeighbors(x,y) == 3) {
+                    g2.setPaint(Color.RED);
                     g2.fillRect(xpos, ypos, CELL_SIZE, CELL_SIZE);
                 }
+
+                else if (board.countLivingNeighbors(x,y) == 2) {
+
+                    g2.setPaint(Color.ORANGE);
+                    g2.fillRect(xpos, ypos, CELL_SIZE, CELL_SIZE);
+                }
+
+                else if (board.countLivingNeighbors(x,y) == 6) {
+
+                    g2.setPaint(Color.GREEN);
+                    g2.fillRect(xpos, ypos, CELL_SIZE, CELL_SIZE);
+                }
+
+                else if (board.countLivingNeighbors(x,y) == 3) {
+
+                    g2.setPaint(LightGreen);
+                    g2.fillRect(xpos, ypos, CELL_SIZE, CELL_SIZE);
+                }
+
+
             }
         }
     }
